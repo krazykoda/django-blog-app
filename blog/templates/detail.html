@@ -1,0 +1,44 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2 card mb-4  mt-3 left  top">
+      <div class="card-body">
+        <h1>{% block title %} {{ post.title }} {% endblock title %}</h1>
+        <p class=" text-muted">{{ post.author }} | {{ post.created_on }}</p>
+        <p class="card-text ">{{ post.body | safe }}</p>
+      </div>
+
+      <hr />
+
+      {% if comments%}
+      	<div class="card-body">
+      	  <h4>Comments:</h4>
+		  {% for comment in comments %}
+	      <p class="card-text mb-1">    
+	        <b>{{ comment.author }}</b>: {{ comment.body }}
+	      </p>
+	      <small class="text-muted">{{comment.created_on }}&nbsp;</small>
+	      <hr>
+	      {% endfor %}
+      	</div>
+	      
+      {% endif %}
+      {% if user.is_authenticated %}
+      <div class="card-body">
+      	<form method="POST" action="">
+      		{% csrf_token %}
+        	{{ form.as_p }}
+        	<button type="submit" class="btn btn-primary">Comment</button>	
+      	</form>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+
